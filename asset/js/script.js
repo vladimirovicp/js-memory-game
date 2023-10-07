@@ -5,6 +5,9 @@ const spanAttempt = infoVictory.querySelector('.attempt');
 const sectionStatistic = document.querySelector('.statistic');
 const buttonStatistic = document.querySelector('.buttonStatistic');
 
+const infoStatistic = sectionStatistic.querySelector('.info-statistic');
+const info = infoStatistic.querySelector('.info');
+
 const buttonExit = sectionStatistic.querySelector('.buttonExit');
 
 let hasFlippedCard = false;
@@ -18,8 +21,13 @@ function victory() {
     infoVictory.classList.add('active');
     document.body.classList.add('_lock');
 
-    spanAttempt.textContent = 'Вам потребовалось ' + attempt + ' парная(ых) открытий';
+    spanAttempt.textContent = 'Вам потребовалось ' + attempt + ' парных открытий';
     //  Потребовалось attempt парных открытий
+
+    localStorage.statistics += attempt + ';';
+
+    getStatistic(localStorage.statistics);
+
 }
 
 buttonreload.addEventListener('click', (e) => {
@@ -130,8 +138,47 @@ function getLocalStorage() {
 }
 
 function getStatistic(statistics) {
-    console.log('1234');
+    console.log('getStatistic(statistics)');
+    console.log(localStorage.statistics);
+
+    info.textContent = 'Статистика:';
+    const text = localStorage.statistics;
+
+    console.log('localStorage.statistics',text);
+
+    const arrText = text.split(";");
+    //парная(ых) открытий
+
+
+    const ul = document.createElement("ul");
+    //const li = document.createElement("li");
+
+
+    arrText.forEach(function(item, index, array) {
+        if(item){
+            const li = document.createElement("li");
+            li.textContent = 'Игра пройдена за ' + item + ' парных открытий';
+            ul.append(li);
+        }
+    });
+
+    // for (let i=0; i < arrText.length - 1; i++){
+    //     const li = document.createElement("li");
+    //     li.textContent = 'Игра пройдена за ' + arrText[i] + ' парных открытий';
+    //     ul.append(li);
+    // }
+
+
+
+    //ul.append(list);
+    info.append(ul);
+
+
+
+    //info.textContent =  ul.append(list);
+
 }
 
 window.addEventListener('load', getLocalStorage);
+
 
